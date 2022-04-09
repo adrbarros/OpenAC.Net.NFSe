@@ -42,6 +42,8 @@ namespace OpenAC.Net.NFSe.Providers
 
         Abaco = 0,
 
+        AssessorPublico = 33,
+
         Betha = 1,
 
         [Description("Betha v2")]
@@ -70,6 +72,8 @@ namespace OpenAC.Net.NFSe.Providers
         ISSe = 23,
 
         ISSNet = 18,
+
+        Mitra = 34,
 
         [Description("NFe Cidades")]
         NFeCidades = 6,
