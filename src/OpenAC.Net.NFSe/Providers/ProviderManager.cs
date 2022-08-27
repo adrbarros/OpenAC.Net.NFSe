@@ -93,7 +93,8 @@ namespace OpenAC.Net.NFSe.Providers
                 {NFSeProvider.SmarAPDABRASF, typeof(ProviderSmarAPDABRASF)},
                 {NFSeProvider.Vitoria, typeof(ProviderVitoria)},
                 {NFSeProvider.WebIss, typeof(ProviderWebIss)},
-                {NFSeProvider.WebIss2, typeof(ProviderWebIss2)}
+                {NFSeProvider.WebIss2, typeof(ProviderWebIss2)},
+                {NFSeProvider.MetropolisWeb, typeof(ProviderMetropolisWeb)}
             };
 
             Load();
