@@ -197,11 +197,9 @@
       <PackagePath>content\Schemas\SIAPNet</PackagePath>
     </None>
   </ItemGroup>
-
   <ItemGroup>
     <None Remove="Resources\Municipios.nfse" />
   </ItemGroup>
-
   <ItemGroup>
     <EmbeddedResource Include="Resources\Municipios.nfse" />
   </ItemGroup>
@@ -307,6 +305,7 @@
 
   <ItemGroup>
     <Folder Include="Providers\Sintese\" />
+    <Folder Include="Recursos\" />
   </ItemGroup>
 
   <ItemGroup>
