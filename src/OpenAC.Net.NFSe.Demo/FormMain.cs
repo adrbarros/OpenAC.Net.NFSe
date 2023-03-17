@@ -507,7 +507,7 @@ namespace OpenAC.Net.NFSe.Demo
             if (InputBox.Show("Item na lista de serviço", "Informe o item na lista de serviço.", ref itemListaServico).Equals(DialogResult.Cancel)) return;
 
             // Setar o cnae de acordo com o schema aceito pelo provedor.
-            var cnae = municipio.Provedor.IsIn(NFSeProvider.SIAPNet, NFSeProvider.Sintese, NFSeProvider.ABase, NFSeProvider.Pronim203) ? "5211701" : "861010101";
+            var cnae = municipio.Provedor.IsIn(NFSeProvider.SIAPNet, NFSeProvider.Sintese, NFSeProvider.ABase, NFSeProvider.Pronim203, NFSeProvider.Sigiss2) ? "5211701" : "861010101";
             if (InputBox.Show("CNAE", "Informe o codigo CNAE.", ref cnae).Equals(DialogResult.Cancel)) return;
             nfSe.Servico.CodigoCnae = cnae;
 
@@ -901,6 +901,20 @@ namespace OpenAC.Net.NFSe.Demo
             }
         }
 
+        private void btnEditCidade_Click(object sender, EventArgs e)
+        {
+            ExecuteSafe(() =>
+            {
+                var municipio = cmbCidades.GetSelectedValue<OpenMunicipioNFSe>();
+                if (municipio == null) return;
+
+                if (FormEdtMunicipio.Editar(municipio).Equals(DialogResult.Cancel)) return;
+
+                LoadData();
+            });
+        }
+
         #endregion Methods
+
     }
 }
