@@ -205,6 +205,9 @@
 	<ItemGroup>
 		<None Remove="Resources\Municipios.nfse" />
 		<EmbeddedResource Include="Resources\Municipios.nfse" />
+		<Reference Include="System.Net.Http">
+		  <HintPath>C:\Program Files (x86)\Reference Assemblies\Microsoft\Framework\.NETFramework\v4.7\System.Net.Http.dll</HintPath>
+		</Reference>
 		
 		<None Update="Schemas\Abaco\*.*">
 			<CopyToOutputDirectory>Always</CopyToOutputDirectory>
@@ -318,6 +321,12 @@
 	    <CopyToOutputDirectory>Always</CopyToOutputDirectory>
 	  </None>
 	  <None Update="Schemas\SimplISSv2\xmldsig-core-schema20020212.xsd">
+	    <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+	  </None>
+	  <None Update="Schemas\Tiplan2\nfse.xsd">
+	    <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+	  </None>
+	  <None Update="Schemas\Tiplan2\xmldsig-core-schema20020212.xsd">
 	    <CopyToOutputDirectory>Always</CopyToOutputDirectory>
 	  </None>
 	</ItemGroup>

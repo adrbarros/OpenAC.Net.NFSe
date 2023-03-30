@@ -120,7 +120,18 @@ namespace OpenAC.Net.NFSe.Demo
         {
             ExecuteSafe(() =>
             {
-                var ret = openNFSe.ConsultaNFSePeriodo(DateTime.Today.AddDays(-7), DateTime.Today);
+                var numero = 0;
+                if (InputBox.Show("Numero da Nota", "Digite o numero da Nota", ref numero).Equals(DialogResult.Cancel)) return;
+
+                var serie = "0";
+                if (InputBox.Show("Serie da Nota", "Digite a serie da Nota", ref serie).Equals(DialogResult.Cancel)) return;
+
+                RetornoConsultarNFSe ret;
+                if (numero > 0)
+                    ret = openNFSe.ConsultaNFSe(numero, serie);
+                else
+                    ret = openNFSe.ConsultaNFSePeriodo(DateTime.Today.AddDays(-7), DateTime.Today);
+
                 ProcessarRetorno(ret);
             });
         }
@@ -507,7 +518,7 @@ namespace OpenAC.Net.NFSe.Demo
             if (InputBox.Show("Item na lista de serviço", "Informe o item na lista de serviço.", ref itemListaServico).Equals(DialogResult.Cancel)) return;
 
             // Setar o cnae de acordo com o schema aceito pelo provedor.
-            var cnae = municipio.Provedor.IsIn(NFSeProvider.SIAPNet, NFSeProvider.Sintese, NFSeProvider.ABase, NFSeProvider.Pronim203, NFSeProvider.Sigiss2, NFSeProvider.Ginfes) ? "5211701" : "861010101";
+            var cnae = GetCnae(municipio);
             if (InputBox.Show("CNAE", "Informe o codigo CNAE.", ref cnae).Equals(DialogResult.Cancel)) return;
             nfSe.Servico.CodigoCnae = cnae;
 
@@ -570,6 +581,19 @@ namespace OpenAC.Net.NFSe.Demo
             nfSe.Tomador.DadosContato.DDD = "16";
             nfSe.Tomador.DadosContato.Telefone = "30111234";
             nfSe.Tomador.DadosContato.Email = "NOME@EMPRESA.COM.BR";
+        }
+
+        private string GetCnae(OpenMunicipioNFSe municipio)
+        {
+            return municipio.Provedor.IsIn(
+                NFSeProvider.SIAPNet, 
+                NFSeProvider.Sintese, 
+                NFSeProvider.ABase, 
+                NFSeProvider.Pronim203, 
+                NFSeProvider.Sigiss2, 
+                NFSeProvider.Ginfes, 
+                NFSeProvider.Tiplanv2
+            ) ? "5211701" : "861010101";
         }
 
         private void ProcessarRetorno(RetornoWebservice retorno)

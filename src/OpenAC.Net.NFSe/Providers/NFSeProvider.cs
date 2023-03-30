@@ -77,6 +77,8 @@ namespace OpenAC.Net.NFSe.Providers
 
         IPM = 36,
 
+        IPM2 = 47,
+
         ISSe = 23,
 
         ISSNet = 18,
@@ -127,6 +129,8 @@ namespace OpenAC.Net.NFSe.Providers
 
         [Description("RLZ Informática")]
         RLZ = 31,
+
+        Tiplanv2 = 46,
 
         [Description("Vitoria")]
         Vitoria = 13,
