@@ -1,13 +1,13 @@
 <Project Sdk="Microsoft.NET.Sdk">
 
 	<PropertyGroup>
-		<TargetFrameworks>net452;net48;netstandard2.0;net6.0;net7.0</TargetFrameworks>
+		<TargetFrameworks>net462;net470;net48;netstandard2.0;net6.0;net7.0</TargetFrameworks>
 		<LangVersion>latest</LangVersion>
 		<AssemblyName>OpenAC.Net.NFSe</AssemblyName>
 		<RootNamespace>OpenAC.Net.NFSe</RootNamespace>
 		<SignAssembly>true</SignAssembly>
 		<AssemblyOriginatorKeyFile>OpenAC.snk</AssemblyOriginatorKeyFile>
-		<Copyright>Copyright © Projeto OpenAC .Net 2014 - 2022</Copyright>
+		<Copyright>Copyright © Projeto OpenAC .Net 2014 - 2023</Copyright>
 		<Company>OpenAC .Net - Automação Comercial em .Net</Company>
 		<Authors>Projeto OpenAC .Net</Authors>
 		<PackageProjectUrl>https://openac-net.github.io/</PackageProjectUrl>
@@ -35,8 +35,8 @@
 		<DefineConstants>NETCORE;NETSTANDARD;NETSTANDARD2_0</DefineConstants>
 	</PropertyGroup>
 
-	<PropertyGroup Condition=" '$(TargetFramework)' == 'net452'">
-		<DefineConstants>NET45;NETFULL</DefineConstants>
+	<PropertyGroup Condition=" '$(TargetFramework)' != 'netstandard2.0' and '$(TargetFramework)' != 'net6.0' and '$(TargetFramework)' != 'net7.0'">
+		<DefineConstants>NETFULL</DefineConstants>
 	</PropertyGroup>
 
 	<ItemGroup>
@@ -46,15 +46,19 @@
 		</PackageReference>
 		<PackageReference Include="OpenAC.Net.Core" Version="1.5.0.1" />
 		<PackageReference Include="OpenAC.Net.DFe.Core" Version="1.5.0.2" />
-		<PackageReference Include="System.ServiceModel.Http" Version="4.10.0" />
-		<PackageReference Include="System.ServiceModel.Primitives" Version="4.10.0" />
+		<PackageReference Include="System.ServiceModel.Http" Version="4.10.2" />
+		<PackageReference Include="System.ServiceModel.Primitives" Version="4.10.2" />		
 	</ItemGroup>
 
-	<ItemGroup Condition=" '$(TargetFramework)' == 'net452' ">
+	<ItemGroup Condition=" '$(TargetFramework)' == 'net462' or '$(TargetFramework)' == 'net470' or '$(TargetFramework)' == 'net48'">
 		<Reference Include="System.Drawing" />
 	</ItemGroup>
+	
+	<ItemGroup Condition=" '$(TargetFramework)' == 'net462' or '$(TargetFramework)' == 'net470' or '$(TargetFramework)' == 'net48' or '$(TargetFramework)' == 'netstandard2.0'">
+		<PackageReference Include="System.Net.Http" Version="4.3.4" />
+	</ItemGroup>
 
-	<ItemGroup Condition="'$(TargetFramework)' != 'net452'">
+	<ItemGroup Condition="'$(TargetFramework)' == 'net6.0' or '$(TargetFramework)' == 'net7.0'">
 		<PackageReference Include="System.Drawing.Common" Version="7.0.0" />
 	</ItemGroup>
 
@@ -205,10 +209,6 @@
 	<ItemGroup>
 		<None Remove="Resources\Municipios.nfse" />
 		<EmbeddedResource Include="Resources\Municipios.nfse" />
-		<Reference Include="System.Net.Http">
-		  <HintPath>C:\Program Files (x86)\Reference Assemblies\Microsoft\Framework\.NETFramework\v4.7\System.Net.Http.dll</HintPath>
-		  <Private>False</Private>
-		</Reference>
 		
 		<None Update="Schemas\Abaco\*.*">
 			<CopyToOutputDirectory>Always</CopyToOutputDirectory>
