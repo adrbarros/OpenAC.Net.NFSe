@@ -8,7 +8,7 @@
 // ***********************************************************************
 // <copyright file="ConfigWebServicesNFSe.cs" company="OpenAC .Net">
 //		        		   The MIT License (MIT)
-//	     		    Copyright (c) 2014 - 2022 Projeto OpenAC .Net
+//	     		    Copyright (c) 2014 - 2023 Projeto OpenAC .Net
 //
 //	 Permission is hereby granted, free of charge, to any person obtaining
 // a copy of this software and associated documentation files (the "Software"),
@@ -57,15 +57,7 @@ public sealed class ConfigWebServicesNFSe : DFeWebserviceConfigBase
         Senha = string.Empty;
         FraseSecreta = string.Empty;
         ChaveAcesso = string.Empty;
-
-        //#if NETCORE
         Protocolos = SecurityProtocolType.Tls | SecurityProtocolType.Tls11 | SecurityProtocolType.Tls12;
-        //#else
-        //            Protocolos = SecurityProtocolType.Ssl3 | SecurityProtocolType.Tls |
-        //                         SecurityProtocolType.Tls11 | SecurityProtocolType.Tls12;
-
-        //#endif
-
     }
 
     #endregion Constructor
@@ -103,8 +95,8 @@ public sealed class ConfigWebServicesNFSe : DFeWebserviceConfigBase
             Guard.Against<ArgumentException>(municipio == null, "Município não cadastrado.");
 
             codigoMunicipio = value;
-            Municipio = municipio.Nome;
-            Provider = municipio.Provedor;
+            Municipio = municipio?.Nome ?? string.Empty;
+            Provider = municipio?.Provedor ?? NFSeProvider.Nenhum;
         }
     }
 

@@ -4,11 +4,11 @@
 // Created          : 09-03-2022
 //
 // Last Modified By : Rafael Dias
-// Last Modified On : 09-03-2022
+// Last Modified On : 01-04-2023
 // ***********************************************************************
 // <copyright file="NFSeHttpServiceClient.cs" company="OpenAC .Net">
 //		        		   The MIT License (MIT)
-//	     		    Copyright (c) 2014 - 2022 Projeto OpenAC .Net
+//	     		    Copyright (c) 2014 - 2023 Projeto OpenAC .Net
 //
 //	 Permission is hereby granted, free of charge, to any person obtaining
 // a copy of this software and associated documentation files (the "Software"),
@@ -150,7 +150,7 @@ public abstract class NFSeHttpServiceClient : IDisposable
 
     #region Methods
 
-    protected async void Execute(HttpContent? content, HttpMethod method, Dictionary<string, string> headers = null)
+    protected async void Execute(HttpContent content, HttpMethod method, Dictionary<string, string> headers = null)
     {
         try
         {
@@ -259,12 +259,9 @@ public abstract class NFSeHttpServiceClient : IDisposable
 
         // If disposing managed and unmanaged resources.
         if (disposing)
-        {
             DisposeManaged();
-        }
 
         DisposeUnmanaged();
-
         IsDisposed = true;
     }
 

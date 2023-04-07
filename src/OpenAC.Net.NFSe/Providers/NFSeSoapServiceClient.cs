@@ -8,7 +8,7 @@
 // ***********************************************************************
 // <copyright file="NFSeSoapServiceClient.cs" company="OpenAC .Net">
 //		        		   The MIT License (MIT)
-//	     		    Copyright (c) 2014 - 2022 Projeto OpenAC .Net
+//	     		    Copyright (c) 2014 - 2023 Projeto OpenAC .Net
 //
 //	 Permission is hereby granted, free of charge, to any person obtaining
 // a copy of this software and associated documentation files (the "Software"),
@@ -113,7 +113,7 @@ public abstract class NFSeSoapServiceClient : NFSeHttpServiceClient
     protected virtual string Execute(string soapAction, string message, string soapHeader, string[] responseTag, params string[] soapNamespaces)
     {
         string contentType;
-        Dictionary<string, string> headers;
+        Dictionary<string, string>? headers;
         switch (MessageVersion)
         {
             case SoapVersion.Soap11:
@@ -153,7 +153,7 @@ public abstract class NFSeSoapServiceClient : NFSeHttpServiceClient
         envelope.Append("</soapenv:Envelope>");
         EnvelopeEnvio = envelope.ToString();
 
-        Execute(contentType, HttpMethod.Post, headers);
+        Execute(new StringContent(EnvelopeEnvio, Encoding.UTF8, contentType), HttpMethod.Post, headers);
 
         if (!EnvelopeRetorno.IsValidXml())
             throw new OpenDFeCommunicationException("Erro ao processar o xml do envelope SOAP => " + EnvelopeRetorno);
