@@ -30,10 +30,10 @@
 // ***********************************************************************
 
 using System;
-using System.Collections.Generic;
 using System.IO;
 using System.Net.Http;
 using System.Net.Http.Headers;
+using System.Runtime.InteropServices;
 using System.Security.Authentication;
 using System.Security.Cryptography.X509Certificates;
 using System.Text;
@@ -128,9 +128,9 @@ public abstract class NFSeHttpServiceClient : IDisposable
 
     #region Properties
 
-    public string PrefixoEnvio { get; protected set; }
+    public string PrefixoEnvio { get; }
 
-    public string PrefixoResposta { get; protected set; }
+    public string PrefixoResposta { get; }
 
     public string EnvelopeEnvio { get; protected set; }
 
@@ -146,20 +146,25 @@ public abstract class NFSeHttpServiceClient : IDisposable
 
     protected bool IsDisposed { get; private set; }
 
+    protected string AuthenticationHeader { get; set; } = "Authorization";
+
+    protected Encoding Charset { get; set; } = Encoding.UTF8;
+
     #endregion Properties
 
     #region Methods
 
-    protected async void Execute(HttpContent content, HttpMethod method, Dictionary<string, string> headers = null)
+    protected void Execute(HttpContent content, HttpMethod method)
     {
         try
         {
             Guard.Against<ArgumentNullException>(content == null && method == HttpMethod.Post, nameof(content));
 
             if (!EnvelopeEnvio.IsEmpty())
-                GravarSoap(EnvelopeEnvio, $"{DateTime.Now:yyyyMMddssfff}_{PrefixoEnvio}_envio.xml");
+                GravarEnvio(EnvelopeEnvio, $"{DateTime.Now:yyyyMMddssfff}_{PrefixoEnvio}_envio.xml");
 
             var handler = new HttpClientHandler();
+
             if (!ValidarCertificadoServidor())
                 handler.ServerCertificateCustomValidationCallback = (_, _, _, _) => true;
 
@@ -174,32 +179,34 @@ public abstract class NFSeHttpServiceClient : IDisposable
                 client.Timeout = Provider.TimeOut.Value;
 
             var request = new HttpRequestMessage(method, Url);
-            if (headers?.Count > 0)
-            {
-                foreach (var header in headers)
-                    request.Headers.Add(header.Key, header.Value);
-            }
 
-            var assemblyName = this.GetType().Assembly.GetName();
+            var assemblyName = GetType().Assembly.GetName();
             var productValue = new ProductInfoHeaderValue(assemblyName.Name, assemblyName.Version.ToString());
             var commentValue = new ProductInfoHeaderValue("(+https://github.com/OpenAC-Net/OpenAC.Net.NFSe)");
 
             request.Headers.UserAgent.Add(productValue);
             request.Headers.UserAgent.Add(commentValue);
 
+            var auth = Authentication();
+            if (!auth.IsEmpty())
+                request.Headers.Add(AuthenticationHeader, auth);
+
             if (content != null)
                 request.Content = content;
 
-            var response = await client.SendAsync(request);
-            EnvelopeRetorno = await response.Content.ReadAsStringAsync();
+            var response = client.SendAsync(request).GetAwaiter().GetResult().EnsureSuccessStatusCode();
+            EnvelopeRetorno = response.Content.ReadAsStringAsync().GetAwaiter().GetResult();
 
-            GravarSoap(EnvelopeRetorno, $"{DateTime.Now:yyyyMMddssfff}_{PrefixoResposta}_retorno.xml");
+            GravarEnvio(EnvelopeRetorno, $"{DateTime.Now:yyyyMMddssfff}_{PrefixoResposta}_retorno.xml");
+            client.Dispose();
         }
         catch (Exception ex) when (ex is not OpenDFeCommunicationException)
         {
             throw new OpenDFeCommunicationException(ex.Message, ex);
         }
     }
+
+    protected virtual string Authentication() => "";
 
     protected virtual bool ValidarCertificadoServidor() => true;
 
@@ -209,7 +216,7 @@ public abstract class NFSeHttpServiceClient : IDisposable
     /// <param name="conteudoArquivo"></param>
     /// <param name="nomeArquivo"></param>
     /// <exception cref="ArgumentOutOfRangeException"></exception>
-    protected virtual void GravarSoap(string conteudoArquivo, string nomeArquivo)
+    protected virtual void GravarEnvio(string conteudoArquivo, string nomeArquivo)
     {
         if (Provider.Configuracoes.WebServices.Salvar == false) return;
 
