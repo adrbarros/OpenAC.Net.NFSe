@@ -3,8 +3,8 @@
 // Author           : Rafael Dias
 // Created          : 07-27-2014
 //
-// Last Modified By : Rafael Dias
-// Last Modified On : 09-28-2014
+// Last Modified By : Felipe (Transis Software)
+// Last Modified On : 04-12-2023
 // ***********************************************************************
 // <copyright file="ProviderBase.cs" company="OpenAC .Net">
 //		        		   The MIT License (MIT)
@@ -43,6 +43,7 @@ using OpenAC.Net.Core.Logging;
 using OpenAC.Net.DFe.Core;
 using OpenAC.Net.DFe.Core.Common;
 using OpenAC.Net.DFe.Core.Document;
+using OpenAC.Net.DFe.Core.Extensions;
 using OpenAC.Net.DFe.Core.Serializer;
 using OpenAC.Net.NFSe.Configuracao;
 using OpenAC.Net.NFSe.Nota;
@@ -155,6 +156,7 @@ public abstract class ProviderBase : IOpenLog, IDisposable
         FormatoAlerta = "TAG:%TAG% ID:%ID%/%TAG%(%DESCRICAO%) - %MSG%.";
         Configuracoes = config;
         Municipio = municipio;
+        Versao = VersaoNFSe.ve100;
     }
 
     /// <inheritdoc />
@@ -173,6 +175,8 @@ public abstract class ProviderBase : IOpenLog, IDisposable
     /// </summary>
     /// <value>The name.</value>
     public string Name { get; protected set; }
+    
+    public VersaoNFSe Versao { get; protected set; }
 
     /// <summary>
     /// Gets the lista de alertas.
@@ -630,7 +634,7 @@ public abstract class ProviderBase : IOpenLog, IDisposable
         }
         catch (Exception ex)
         {
-            retornoWebservice.Erros.Add(new Evento { Codigo = "0", Descricao = ex.Message });
+            retornoWebservice.Erros.Add(new Evento { Codigo = "0", Descricao = "Erro em ConsultaNFSeRps: " + ex.Message });
             return retornoWebservice;
         }
     }
@@ -703,7 +707,7 @@ public abstract class ProviderBase : IOpenLog, IDisposable
         }
         catch (Exception ex)
         {
-            retornoWebservice.Erros.Add(new Evento { Codigo = "0", Descricao = ex.Message });
+            retornoWebservice.Erros.Add(new Evento { Codigo = "0", Descricao = "Erro em ConsultaNFSe: " + ex.Message });
             return retornoWebservice;
         }
     }
@@ -763,7 +767,7 @@ public abstract class ProviderBase : IOpenLog, IDisposable
         }
         catch (Exception ex)
         {
-            retornoWebservice.Erros.Add(new Evento { Codigo = "0", Descricao = ex.Message });
+            retornoWebservice.Erros.Add(new Evento { Codigo = "0", Descricao = "Erro em CancelarNFSe: " + ex.Message });
             return retornoWebservice;
         }
     }
@@ -817,7 +821,7 @@ public abstract class ProviderBase : IOpenLog, IDisposable
         }
         catch (Exception ex)
         {
-            retornoWebservice.Erros.Add(new Evento { Codigo = "0", Descricao = ex.Message });
+            retornoWebservice.Erros.Add(new Evento { Codigo = "0", Descricao = "Erro em CancelarNFSeLote: " + ex.Message });
             return retornoWebservice;
         }
     }
@@ -876,7 +880,7 @@ public abstract class ProviderBase : IOpenLog, IDisposable
         }
         catch (Exception ex)
         {
-            retornoWebservice.Erros.Add(new Evento { Codigo = "0", Descricao = ex.Message });
+            retornoWebservice.Erros.Add(new Evento { Codigo = "0", Descricao = "Erro em SubstituirNFSe: " + ex.Message });
             return retornoWebservice;
         }
     }
@@ -1486,11 +1490,14 @@ public abstract class ProviderBase : IOpenLog, IDisposable
     /// <returns>Se estiver tudo OK retorna null, caso contrário as mensagens de alertas e erros.</returns>
     protected virtual void ValidarSchema(RetornoWebservice retorno, string schema)
     {
-        schema = Path.Combine(Configuracoes.Arquivos.PathSchemas, Name, schema);
+        schema = Path.Combine(Configuracoes.Arquivos.PathSchemas, Name, Versao.GetDFeValue(), schema);
         if (XmlSchemaValidation.ValidarXml(retorno.XmlEnvio, schema, out var errosSchema, out var alertasSchema)) return;
 
         foreach (var erro in errosSchema.Select(descricao => new Evento { Codigo = "0", Descricao = descricao }))
+        {
+            retorno.Alertas.Add(new Evento { Codigo = "0", Descricao = "Erro gerado ao validar o schema do xml => " + erro.Descricao });
             retorno.Erros.Add(erro);
+        }
 
         foreach (var alerta in alertasSchema.Select(descricao => new Evento { Codigo = "0", Descricao = descricao }))
             retorno.Alertas.Add(alerta);

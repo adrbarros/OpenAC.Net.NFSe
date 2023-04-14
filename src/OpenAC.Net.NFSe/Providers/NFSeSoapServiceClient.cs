@@ -1,4 +1,4 @@
-﻿// ***********************************************************************
+// ***********************************************************************
 // Assembly         : OpenAC.Net.NFSe
 // Author           : Rafael Dias
 // Created          : 09-03-2022
@@ -29,18 +29,16 @@
 // <summary></summary>
 // ***********************************************************************
 
+using OpenAC.Net.Core;
+using OpenAC.Net.Core.Extensions;
+using OpenAC.Net.DFe.Core;
 using System;
-using System.Collections.Generic;
-using System.Collections.Specialized;
 using System.Linq;
 using System.Net.Http;
 using System.Net.Http.Headers;
 using System.Security.Cryptography.X509Certificates;
 using System.Text;
 using System.Xml.Linq;
-using OpenAC.Net.Core;
-using OpenAC.Net.Core.Extensions;
-using OpenAC.Net.DFe.Core;
 
 namespace OpenAC.Net.NFSe.Providers;
 
@@ -135,7 +133,7 @@ public abstract class NFSeSoapServiceClient : NFSeHttpServiceClient
         envelope.Append("</soapenv:Body>");
         envelope.Append("</soapenv:Envelope>");
         EnvelopeEnvio = envelope.ToString();
-        
+
         StringContent content;
         switch (MessageVersion)
         {
@@ -146,7 +144,7 @@ public abstract class NFSeSoapServiceClient : NFSeHttpServiceClient
 
             case SoapVersion.Soap12:
                 content = new StringContent(EnvelopeEnvio, CharSet, "application/soap+xml");
-                content.Headers.ContentType?.Parameters.Add(new NameValueHeaderValue("action", soapAction));
+                content.Headers.ContentType?.Parameters.Add(new NameValueHeaderValue("action", $"\"{soapAction}\""));
                 break;
 
             default:
@@ -164,13 +162,12 @@ public abstract class NFSeSoapServiceClient : NFSeHttpServiceClient
         if (retorno.IsValidXml()) return retorno;
 
         if (retorno != null)
-            throw new OpenDFeCommunicationException(retorno);
+            throw new OpenDFeCommunicationException("Erro ao processar o retorno(1) => " + retorno);
         else
-            throw new OpenDFeCommunicationException(EnvelopeRetorno);
+            throw new OpenDFeCommunicationException("Erro ao processar o retorno(2) => " + EnvelopeRetorno);
     }
 
     protected abstract string TratarRetorno(XElement xmlDocument, string[] responseTag);
 
     #endregion Methods
 }
-
