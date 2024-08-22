@@ -1,12 +1,12 @@
 ﻿// ***********************************************************************
 // Assembly         : OpenAC.Net.NFSe
-// Author           : Fabio Dias
-// Created          : 12-11-2021
+// Author           : Felipe Silveira (Transis Software)
+// Created          : 06-22-2022
 //
-// Last Modified By : Fabio Dias
-// Last Modified On : 12-11-2021
+// Last Modified By : Felipe Silveira (Transis Software)
+// Last Modified On : 06-22-2022
 // ***********************************************************************
-// <copyright file="ProviderRLZ.cs" company="OpenAC .Net">
+// <copyright file="ProviderDSFSJC.cs" company="OpenAC .Net">
 //		        		   The MIT License (MIT)
 //	     		    Copyright (c) 2014 - 2023 Projeto OpenAC .Net
 //
@@ -29,33 +29,37 @@
 // <summary></summary>
 // ***********************************************************************
 
-using OpenAC.Net.NFSe.Configuracao;
-using OpenAC.Net.NFSe.Nota;
-using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Text;
-using System.Threading.Tasks;
+using System.Xml.Linq;
+using OpenAC.Net.Core.Extensions;
+using OpenAC.Net.NFSe.Configuracao;
 
 namespace OpenAC.Net.NFSe.Providers;
 
-internal sealed class ProviderRLZ : ProviderABRASF203
+internal sealed class ProviderDSF : ProviderABRASF
 {
     #region Constructors
 
-    public ProviderRLZ(ConfigNFSe config, OpenMunicipioNFSe municipio) : base(config, municipio)
+    public ProviderDSF(ConfigNFSe config, OpenMunicipioNFSe municipio) : base(config, municipio)
     {
-        Name = "RLZ";
+        Name = "DSF";
     }
 
     #endregion Constructors
 
-    #region Methods
+    #region Private Methods
 
-    protected override IServiceClient GetClient(TipoUrl tipo)
+    protected override IServiceClient GetClient(TipoUrl tipo) => new DSFServiceClient(this, tipo);
+
+    protected override string GerarCabecalho()
     {
-        return new RLZServiceClient(this, tipo);
+        var cabecalho = new StringBuilder();
+        cabecalho.Append("<?xml version=\"1.0\" encoding=\"UTF-8\"?>");
+        cabecalho.Append("<ns2:cabecalho versao=\"3\" xmlns:ns2=\"http://www.abrasf.org.br/nfse.xsd\">");
+        cabecalho.Append("<versaoDados>3</versaoDados>");
+        cabecalho.Append("</ns2:cabecalho>");
+        return cabecalho.ToString();
     }
 
-    #endregion Methods
+    #endregion Private Methods
 }

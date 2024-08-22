@@ -1,12 +1,12 @@
 ﻿// ***********************************************************************
 // Assembly         : OpenAC.Net.NFSe
-// Author           : Felipe Silveira (Transis Software)
-// Created          : 06-22-2022
+// Author           : Fabio Dias
+// Created          : 12-11-2021
 //
-// Last Modified By : Felipe Silveira (Transis Software)
-// Last Modified On : 06-22-2022
+// Last Modified By : Fabio Dias
+// Last Modified On : 12-11-2021
 // ***********************************************************************
-// <copyright file="ProviderDSFSJC.cs" company="OpenAC .Net">
+// <copyright file="ProviderRLZ.cs" company="OpenAC .Net">
 //		        		   The MIT License (MIT)
 //	     		    Copyright (c) 2014 - 2023 Projeto OpenAC .Net
 //
@@ -29,37 +29,27 @@
 // <summary></summary>
 // ***********************************************************************
 
-using System.Text;
-using System.Xml.Linq;
-using OpenAC.Net.Core.Extensions;
 using OpenAC.Net.NFSe.Configuracao;
 
 namespace OpenAC.Net.NFSe.Providers;
 
-internal sealed class ProviderDSF100 : ProviderABRASF
+internal sealed class RLZProvider : ProviderABRASF203
 {
     #region Constructors
 
-    public ProviderDSF100(ConfigNFSe config, OpenMunicipioNFSe municipio) : base(config, municipio)
+    public RLZProvider(ConfigNFSe config, OpenMunicipioNFSe municipio) : base(config, municipio)
     {
-        Name = "DSF";
+        Name = "RLZ";
     }
 
     #endregion Constructors
 
-    #region Private Methods
+    #region Methods
 
-    protected override IServiceClient GetClient(TipoUrl tipo) => new DSF100ServiceClient(this, tipo);
-
-    protected override string GerarCabecalho()
+    protected override IServiceClient GetClient(TipoUrl tipo)
     {
-        var cabecalho = new StringBuilder();
-        cabecalho.Append("<?xml version=\"1.0\" encoding=\"UTF-8\"?>");
-        cabecalho.Append("<ns2:cabecalho versao=\"3\" xmlns:ns2=\"http://www.abrasf.org.br/nfse.xsd\">");
-        cabecalho.Append("<versaoDados>3</versaoDados>");
-        cabecalho.Append("</ns2:cabecalho>");
-        return cabecalho.ToString();
+        return new RLZServiceClient(this, tipo);
     }
 
-    #endregion Private Methods
+    #endregion Methods
 }

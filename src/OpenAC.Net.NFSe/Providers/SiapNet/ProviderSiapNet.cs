@@ -1,12 +1,12 @@
 // ***********************************************************************
 // Assembly         : OpenAC.Net.NFSe
-// Author           : Felipe Silveira (Transis Software)
-// Created          : 18-04-2022
+// Author           : Rafael Dias
+// Created          : 08-14-2024
 //
-// Last Modified By : Felipe Silveira (Transis Software)
-// Last Modified On : 13-05-2022
+// Last Modified By : Rafael Dias
+// Last Modified On : 08-14-2024
 // ***********************************************************************
-// <copyright file="ProviderSIAPNet.cs" company="OpenAC .Net">
+// <copyright file="ProviderFiorilli.cs" company="OpenAC .Net">
 //		        		   The MIT License (MIT)
 //	     		    Copyright (c) 2014 - 2023 Projeto OpenAC .Net
 //

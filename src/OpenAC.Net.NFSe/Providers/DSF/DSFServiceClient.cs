@@ -36,11 +36,11 @@ using System.Xml.Linq;
 
 namespace OpenAC.Net.NFSe.Providers;
 
-internal sealed class DSF100ServiceClient : NFSeSoapServiceClient, IServiceClient
+internal sealed class DSFServiceClient : NFSeSoapServiceClient, IServiceClient
 {
     #region Constructors
 
-    public DSF100ServiceClient(ProviderDSF100 provider, TipoUrl tipoUrl) : base(provider, tipoUrl, SoapVersion.Soap11)
+    public DSFServiceClient(ProviderDSF provider, TipoUrl tipoUrl) : base(provider, tipoUrl, SoapVersion.Soap11)
     {
     }
 
@@ -146,12 +146,8 @@ internal sealed class DSF100ServiceClient : NFSeSoapServiceClient, IServiceClien
 
     public string SubstituirNFSe(string cabec, string msg) => throw new NotImplementedException("Função não implementada/suportada neste Provedor !");
 
-    private string Execute(string message, string responseTag)
-    {
-        var ns = "xmlns:nfse=\"http://www.abrasf.org.br/nfse.xsd\"";
-
-        return Execute("", message, "", responseTag, ns);
-    }
+    private string Execute(string message, string responseTag) => 
+        Execute("", message, "", [responseTag], ["xmlns:nfse=\"http://www.abrasf.org.br/nfse.xsd\""]);
 
     protected override string TratarRetorno(XElement xmlDocument, string[] responseTag) => xmlDocument.ElementAnyNs(responseTag[0]).ElementAnyNs("return").Value;
 

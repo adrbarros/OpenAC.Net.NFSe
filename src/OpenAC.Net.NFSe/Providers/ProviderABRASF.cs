@@ -1419,7 +1419,7 @@ public abstract class ProviderABRASF : ProviderBase
         // Analisa mensagem de retorno
         var xmlRet = XDocument.Parse(retornoWebservice.XmlRetorno);
         MensagemErro(retornoWebservice, xmlRet.Root);
-        if (retornoWebservice.Erros.Any()) return;
+        if (retornoWebservice.Erros.Count != 0) return;
 
         var confirmacaoCancelamento = xmlRet.Root.ElementAnyNs("RetCancelamento")?
         .ElementAnyNs("NfseCancelamento")?
@@ -1431,6 +1431,7 @@ public abstract class ProviderABRASF : ProviderBase
             return;
         }
 
+        retornoWebservice.Sucesso = true;
         retornoWebservice.Data = confirmacaoCancelamento.ElementAnyNs("DataHoraCancelamento")?.GetValue<DateTime>() ?? DateTime.MinValue;
         retornoWebservice.Sucesso = retornoWebservice.Data != DateTime.MinValue;
         retornoWebservice.CodigoCancelamento = confirmacaoCancelamento.ElementAnyNs("Pedido").ElementAnyNs("InfPedidoCancelamento")

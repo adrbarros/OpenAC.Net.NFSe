@@ -35,7 +35,7 @@ using OpenAC.Net.NFSe.Nota;
 
 namespace OpenAC.Net.NFSe.Providers;
 
-internal sealed class ProviderAbaco : ProviderABRASF
+internal class ProviderAbaco : ProviderABRASF
 {
     #region Constructors
 
@@ -53,20 +53,14 @@ internal sealed class ProviderAbaco : ProviderABRASF
         throw new NotImplementedException("Função não implementada/suportada neste Provedor.");
     }
 
-    protected override string GetNamespace()
-    {
-        return string.Empty;
-    }
+    protected override IServiceClient GetClient(TipoUrl tipo) => new AbacoServiceClient(this, tipo);
 
-    protected override IServiceClient GetClient(TipoUrl tipo)
-    {
-        return new AbacoServiceClient(this, tipo);
-    }
+    protected override string GetNamespace() => "http://www.e-nfs.com.br";
 
-    protected override string GetSchema(TipoUrl tipo)
-    {
-        return "nfse_v2010.xsd";
-    }
+    protected override string GerarCabecalho() =>
+        "<cabecalho versao=\"201001\" xmlns=\"http://www.e-nfs.com.br\"><versaoDados>V2010</versaoDados></cabecalho>";
+
+    protected override string GetSchema(TipoUrl tipo) => "nfse_v2010.xsd";
 
     #endregion Methods
 }
