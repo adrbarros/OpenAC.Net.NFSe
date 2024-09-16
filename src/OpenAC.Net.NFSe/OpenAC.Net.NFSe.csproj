@@ -12,16 +12,17 @@
 		<Authors>Projeto OpenAC .Net</Authors>
 		<PackageProjectUrl>https://openac-net.github.io/</PackageProjectUrl>
 		<GeneratePackageOnBuild>true</GeneratePackageOnBuild>
-		<PackageIconUrl>https://avatars.githubusercontent.com/u/90476515?s=200&amp;v=4</PackageIconUrl>
+		<GenerateDocumentationFile>true</GenerateDocumentationFile>
+		<PackageIcon>nuget.png</PackageIcon>
 		<RepositoryUrl>https://github.com/OpenAC-Net/OpenAC.Net.NFSe</RepositoryUrl>
 		<RepositoryType>git</RepositoryType>
 		<PackageTags>OpenAC.Net NFSe OpenNFSe</PackageTags>
 		<PackageLicenseFile>LICENSE</PackageLicenseFile>
 		<PackageReadmeFile>README.md</PackageReadmeFile>
 		<NeutralLanguage>pt-BR</NeutralLanguage>
-		<AssemblyVersion>1.5.1.0</AssemblyVersion>
-		<FileVersion>1.5.1.0</FileVersion>
-		<Version>1.5.1.0</Version>
+		<AssemblyVersion>1.6.0</AssemblyVersion>
+		<FileVersion>1.6.0</FileVersion>
+		<Version>1.6.0</Version>
 		<PublishRepositoryUrl>true</PublishRepositoryUrl>
 		<EmbedUntrackedSources>true</EmbedUntrackedSources>
 		<DebugType>embedded</DebugType>
@@ -29,6 +30,8 @@
 		<ContinuousIntegrationBuild>true</ContinuousIntegrationBuild>
 		<SymbolPackageFormat>snupkg</SymbolPackageFormat>
 		<PackageId>OpenAC.Net.NFSe</PackageId>
+		<Nullable>enable</Nullable>
+		<Description>Biblioteca para emissão e trasmissão de NFSe (Nota Fiscal de Serviço Eletrônica).</Description>
 	</PropertyGroup>	
 
 	<ItemGroup>
@@ -36,8 +39,8 @@
 			<PrivateAssets>all</PrivateAssets>
 			<IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
 		</PackageReference>
-		<PackageReference Include="OpenAC.Net.Core" Version="1.5.0.1" />
-		<PackageReference Include="OpenAC.Net.DFe.Core" Version="1.5.0.2" />				
+		<PackageReference Include="OpenAC.Net.Core" Version="1.6.0" />
+		<PackageReference Include="OpenAC.Net.DFe.Core" Version="1.6.0.1" />				
 	</ItemGroup>
 
 	<ItemGroup Condition=" '$(TargetFramework)' == 'net462' or '$(TargetFramework)' == 'net470' or '$(TargetFramework)' == 'net48'">
@@ -67,6 +70,11 @@
 		<None Include="..\..\LICENSE">
 			<Pack>True</Pack>
 			<PackagePath>/</PackagePath>
+		</None>
+		<None Include="..\..\nuget.png">
+		  <Pack>True</Pack>
+		  <PackagePath/>
+		  <Link>nuget.png</Link>
 		</None>
 		<None Include="..\..\README.md">
 			<Pack>True</Pack>

@@ -1,14 +1,14 @@
-// ***********************************************************************
+﻿// ***********************************************************************
 // Assembly         : OpenAC.Net.NFSe
 // Author           : Rafael Dias
-// Created          : 10-01-2014
+// Created          : 12-09-2024
 //
 // Last Modified By : Rafael Dias
-// Last Modified On : 10-01-2014
+// Last Modified On : 12-09-2024
 // ***********************************************************************
-// <copyright file="Servico.cs" company="OpenAC .Net">
+// <copyright file="IdeFornecedor.cs" company="OpenAC .Net">
 //		        		   The MIT License (MIT)
-//	     		    Copyright (c) 2014 - 2023 Projeto OpenAC .Net
+//	     	Copyright (c) 2014 - 2024 Projeto OpenAC .Net
 //
 //	 Permission is hereby granted, free of charge, to any person obtaining
 // a copy of this software and associated documentation files (the "Software"),
@@ -29,60 +29,13 @@
 // <summary></summary>
 // ***********************************************************************
 
-using System.ComponentModel;
-using OpenAC.Net.Core.Generics;
-
 namespace OpenAC.Net.NFSe.Nota;
 
-public sealed class Servico : GenericClone<Servico>, INotifyPropertyChanged
+public sealed class IdeFornecedor
 {
-    #region Events
-
-    public event PropertyChangedEventHandler PropertyChanged;
-
-    #endregion Events
-
-    #region Constructor
-
-    /// <summary>
-    /// Initializes a new instance of the <see cref="Servico"/> class.
-    /// </summary>
-    internal Servico()
-    {
-        Tributavel = NFSeSimNao.Sim;
-    }
-
-    #endregion Constructor
-
-    #region Propriedades
-
-    public string Codigo { get; set; }
-
-    public string Descricao { get; set; }
-
-    public decimal Quantidade { get; set; }
-
-    public string ItemListaServico { get; set; }
-
-    public decimal ValorUnitario { get; set; }
-
-    public decimal ValorTotal { get; set; }
-
-    public decimal ValorServicos { get; set; }
-
-    public decimal ValorDeducoes { get; set; }
-
-    public decimal ValorIss { get; set; }
-
-    public decimal Aliquota { get; set; }
-
-    public decimal BaseCalculo { get; set; }
-
-    public string Discriminacao { get; set; }
-
-    public string MunicipioIncidencia { get; set; }
-
-    public NFSeSimNao Tributavel { get; set; }
-
-    #endregion Propriedades
+    public string? Documento { get; set; }
+    
+    public string? Nif { get; set; }
+    
+    public int? CodigoPais { get; set; }
 }

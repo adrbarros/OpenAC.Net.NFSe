@@ -1,12 +1,12 @@
-// ***********************************************************************
+﻿// ***********************************************************************
 // Assembly         : OpenAC.Net.NFSe
 // Author           : Rafael Dias
-// Created          : 10-01-2014
+// Created          : 09-12-2024
 //
 // Last Modified By : Rafael Dias
-// Last Modified On : 10-01-2014
+// Last Modified On : 09-12-2024
 // ***********************************************************************
-// <copyright file="Servico.cs" company="OpenAC .Net">
+// <copyright path="EventoRps.cs" company="OpenAC .Net">
 //		        		   The MIT License (MIT)
 //	     		    Copyright (c) 2014 - 2023 Projeto OpenAC .Net
 //
@@ -29,60 +29,17 @@
 // <summary></summary>
 // ***********************************************************************
 
-using System.ComponentModel;
 using OpenAC.Net.Core.Generics;
 
 namespace OpenAC.Net.NFSe.Nota;
 
-public sealed class Servico : GenericClone<Servico>, INotifyPropertyChanged
+public sealed class EventoRps : GenericClone<EventoRps>
 {
-    #region Events
-
-    public event PropertyChangedEventHandler PropertyChanged;
-
-    #endregion Events
-
-    #region Constructor
-
-    /// <summary>
-    /// Initializes a new instance of the <see cref="Servico"/> class.
-    /// </summary>
-    internal Servico()
-    {
-        Tributavel = NFSeSimNao.Sim;
-    }
-
-    #endregion Constructor
-
     #region Propriedades
+    
+    public string IdentificacaoEvento { get; set; } = "";
 
-    public string Codigo { get; set; }
-
-    public string Descricao { get; set; }
-
-    public decimal Quantidade { get; set; }
-
-    public string ItemListaServico { get; set; }
-
-    public decimal ValorUnitario { get; set; }
-
-    public decimal ValorTotal { get; set; }
-
-    public decimal ValorServicos { get; set; }
-
-    public decimal ValorDeducoes { get; set; }
-
-    public decimal ValorIss { get; set; }
-
-    public decimal Aliquota { get; set; }
-
-    public decimal BaseCalculo { get; set; }
-
-    public string Discriminacao { get; set; }
-
-    public string MunicipioIncidencia { get; set; }
-
-    public NFSeSimNao Tributavel { get; set; }
+    public string? DescricaoEvento { get; set; }
 
     #endregion Propriedades
 }

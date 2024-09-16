@@ -1,12 +1,12 @@
-// ***********************************************************************
+﻿// ***********************************************************************
 // Assembly         : OpenAC.Net.NFSe
 // Author           : Rafael Dias
-// Created          : 10-01-2014
+// Created          : 09-12-2024
 //
 // Last Modified By : Rafael Dias
-// Last Modified On : 10-01-2014
+// Last Modified On : 09-12-2024
 // ***********************************************************************
-// <copyright file="Servico.cs" company="OpenAC .Net">
+// <copyright path="EventoRpsCollection.cs" company="OpenAC .Net">
 //		        		   The MIT License (MIT)
 //	     		    Copyright (c) 2014 - 2023 Projeto OpenAC .Net
 //
@@ -29,60 +29,35 @@
 // <summary></summary>
 // ***********************************************************************
 
-using System.ComponentModel;
-using OpenAC.Net.Core.Generics;
+using OpenAC.Net.DFe.Core.Collection;
 
 namespace OpenAC.Net.NFSe.Nota;
 
-public sealed class Servico : GenericClone<Servico>, INotifyPropertyChanged
+public sealed class EventoRpsCollection : DFeCollection<EventoRps>
 {
-    #region Events
-
-    public event PropertyChangedEventHandler PropertyChanged;
-
-    #endregion Events
-
     #region Constructor
 
     /// <summary>
-    /// Initializes a new instance of the <see cref="Servico"/> class.
+    /// Inicializa uma nova instacia da classe <see cref="NotaServicoCollection" />.
     /// </summary>
-    internal Servico()
+    /// <param name="config">The configuration.</param>
+    public EventoRpsCollection()
     {
-        Tributavel = NFSeSimNao.Sim;
     }
 
     #endregion Constructor
 
-    #region Propriedades
+    #region Methods
 
-    public string Codigo { get; set; }
-
-    public string Descricao { get; set; }
-
-    public decimal Quantidade { get; set; }
-
-    public string ItemListaServico { get; set; }
-
-    public decimal ValorUnitario { get; set; }
-
-    public decimal ValorTotal { get; set; }
-
-    public decimal ValorServicos { get; set; }
-
-    public decimal ValorDeducoes { get; set; }
-
-    public decimal ValorIss { get; set; }
-
-    public decimal Aliquota { get; set; }
-
-    public decimal BaseCalculo { get; set; }
-
-    public string Discriminacao { get; set; }
-
-    public string MunicipioIncidencia { get; set; }
-
-    public NFSeSimNao Tributavel { get; set; }
-
-    #endregion Propriedades
+    /// <summary>
+    /// Adiciona uma nova nota fiscal na coleção.
+    /// </summary>
+    /// <returns>T.</returns>
+    public override EventoRps AddNew()
+    {
+        var evento = new EventoRps();
+        Add(evento);
+        return evento;
+    }
+    #endregion Methods
 }
