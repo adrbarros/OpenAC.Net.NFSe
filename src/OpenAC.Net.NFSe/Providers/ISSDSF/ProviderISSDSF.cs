@@ -8,7 +8,7 @@
 // ***********************************************************************
 // <copyright file="ProviderDSF.cs" company="OpenAC .Net">
 //		        		   The MIT License (MIT)
-//	     		    Copyright (c) 2014 - 2023 Projeto OpenAC .Net
+//	     		Copyright (c) 2014 - 2024 Projeto OpenAC .Net
 //
 //	 Permission is hereby granted, free of charge, to any person obtaining
 // a copy of this software and associated documentation files (the "Software"),
@@ -460,7 +460,7 @@ internal sealed class ProviderISSDSF : ProviderBase
 
     protected override void AssinarEnviar(RetornoEnviar retornoWebservice)
     {
-        retornoWebservice.XmlEnvio = XmlSigning.AssinarXml(retornoWebservice.XmlEnvio, "ns1:ReqEnvioLoteRPS", "Lote", "", Certificado, comments: true);
+        retornoWebservice.XmlEnvio = XmlSigning.AssinarXml(retornoWebservice.XmlEnvio, "ns1:ReqEnvioLoteRPS", "Lote", "", Certificado);
     }
 
     protected override void TratarRetornoEnviar(RetornoEnviar retornoWebservice, NotaServicoCollection notas)
@@ -508,7 +508,7 @@ internal sealed class ProviderISSDSF : ProviderBase
 
     protected override void AssinarEnviarSincrono(RetornoEnviar retornoWebservice)
     {
-        retornoWebservice.XmlEnvio = XmlSigning.AssinarXml(retornoWebservice.XmlEnvio, "ns1:ReqEnvioLoteRPS", "Lote", "", Certificado, true);
+        retornoWebservice.XmlEnvio = XmlSigning.AssinarXml(retornoWebservice.XmlEnvio, "ns1:ReqEnvioLoteRPS", "Lote", "", Certificado);
     }
 
     protected override void TratarRetornoEnviarSincrono(RetornoEnviar retornoWebservice, NotaServicoCollection notas)
@@ -707,7 +707,7 @@ internal sealed class ProviderISSDSF : ProviderBase
 
     protected override void AssinarConsultarNFSeRps(RetornoConsultarNFSeRps retornoWebservice)
     {
-        retornoWebservice.XmlEnvio = XmlSigning.AssinarXml(retornoWebservice.XmlEnvio, "ns1:ReqConsultaNFSeRPS", "Lote", Certificado, true);
+        retornoWebservice.XmlEnvio = XmlSigning.AssinarXml(retornoWebservice.XmlEnvio, "ns1:ReqConsultaNFSeRPS", "Lote", Certificado);
     }
 
     protected override void TratarRetornoConsultarNFSeRps(RetornoConsultarNFSeRps retornoWebservice, NotaServicoCollection notas)
@@ -754,7 +754,7 @@ internal sealed class ProviderISSDSF : ProviderBase
 
     protected override void AssinarConsultarNFSe(RetornoConsultarNFSe retornoWebservice)
     {
-        retornoWebservice.XmlEnvio = XmlSigning.AssinarXml(retornoWebservice.XmlEnvio, "ns1:ReqConsultaNotas", "Cabecalho", Certificado, true);
+        retornoWebservice.XmlEnvio = XmlSigning.AssinarXml(retornoWebservice.XmlEnvio, "ns1:ReqConsultaNotas", "Cabecalho", Certificado);
     }
 
     protected override void TratarRetornoConsultarNFSe(RetornoConsultarNFSe retornoWebservice, NotaServicoCollection notas)
@@ -801,7 +801,7 @@ internal sealed class ProviderISSDSF : ProviderBase
 
     protected override void AssinarCancelarNFSe(RetornoCancelar retornoWebservice)
     {
-        retornoWebservice.XmlEnvio = XmlSigning.AssinarXml(retornoWebservice.XmlEnvio, "ns1:ReqCancelamentoNFSe", "Lote", Certificado, true);
+        retornoWebservice.XmlEnvio = XmlSigning.AssinarXml(retornoWebservice.XmlEnvio, "ns1:ReqCancelamentoNFSe", "Lote", Certificado);
     }
 
     protected override void TratarRetornoCancelarNFSe(RetornoCancelar retornoWebservice, NotaServicoCollection notas)
@@ -868,7 +868,7 @@ internal sealed class ProviderISSDSF : ProviderBase
 
     protected override void AssinarCancelarNFSeLote(RetornoCancelarNFSeLote retornoWebservice)
     {
-        retornoWebservice.XmlEnvio = XmlSigning.AssinarXml(retornoWebservice.XmlEnvio, "ns1:ReqCancelamentoNFSe", "Lote", Certificado, true);
+        retornoWebservice.XmlEnvio = XmlSigning.AssinarXml(retornoWebservice.XmlEnvio, "ns1:ReqCancelamentoNFSe", "Lote", Certificado);
     }
 
     protected override void TratarRetornoCancelarNFSeLote(RetornoCancelarNFSeLote retornoWebservice, NotaServicoCollection notas)
